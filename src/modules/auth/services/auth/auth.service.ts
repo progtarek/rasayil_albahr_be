@@ -34,7 +34,7 @@ export class AuthService {
   async login(authCredentials: AuthCredentialsDto): Promise<User> {
     const { mobile, password } = authCredentials;
     const user = await this.userModel.findOne({ mobile });
-    if (user && !(await user.comparePassword(password))) {
+    if (!user || !(await user.comparePassword(password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
     return user;
