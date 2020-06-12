@@ -9,11 +9,14 @@ import { User } from 'src/db/schemas/user.schema';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { CreateUserDto } from '../../dto/create-user.dto';
 import { AuthCredentialsDto } from '../../dto/auth-credentials.dto';
+import { JwtPayloadDto } from '../../dto/jwt-payload.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
+    private jwtService: JwtService,
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<User> {
@@ -31,12 +34,14 @@ export class AuthService {
     }
   }
 
-  async login(authCredentials: AuthCredentialsDto): Promise<User> {
+  async login(authCredentials: AuthCredentialsDto): Promise<{ token: string }> {
     const { mobile, password } = authCredentials;
     const user = await this.userModel.findOne({ mobile });
     if (!user || !(await user.comparePassword(password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    return user;
+    const jwtPayload: JwtPayloadDto = { username: user.username };
+    const token = await this.jwtService.sign(jwtPayload);
+    return { token };
   }
 }
