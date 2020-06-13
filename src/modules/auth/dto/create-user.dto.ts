@@ -1,5 +1,4 @@
 import {
-  IsEmail,
   Matches,
   MinLength,
   MaxLength,

@@ -20,7 +20,7 @@ import { PassportModule } from '@nestjs/passport';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get('AUTH_SECRET'),
         signOptions: {
-          expiresIn: configService.get('JWT_EXPIRE'),
+          expiresIn: parseInt(configService.get('JWT_EXPIRE')),
         },
       }),
     }),
