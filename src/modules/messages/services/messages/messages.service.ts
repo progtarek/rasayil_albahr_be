@@ -4,12 +4,13 @@ import { Message } from 'src/db/schemas/message.schema';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { User } from 'src/db/schemas/user.schema';
 import { SendMessagePayloadDto } from '../../dto/sendMessagePayload.dto';
+import { ReadManyQueryDto } from '../../dto/readManyQuery.dto';
 
 @Injectable()
 export class MessagesService {
   constructor(
     @InjectModel(Message)
-    private readonly messageModel: ReturnModelType<typeof Message>,
+    private readonly messageModel,
     @InjectModel(User)
     private readonly userModel: ReturnModelType<typeof User>,
   ) {}
@@ -30,5 +31,17 @@ export class MessagesService {
     });
 
     return await createdMessage.save();
+  }
+
+  async findAll(sender: string, query: ReadManyQueryDto): Promise<Message[]> {
+    const messages = await this.messageModel.paginate(
+      { sender },
+      {
+        select: 'message createdAt',
+        ...query,
+      },
+    );
+
+    return messages;
   }
 }

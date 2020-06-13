@@ -1,6 +1,8 @@
-import { Prop, modelOptions, Ref } from '@typegoose/typegoose';
+import { Prop, modelOptions, Ref, plugin } from '@typegoose/typegoose';
 import { User } from './user.schema';
+import * as mongoosePaginate from 'mongoose-paginate';
 
+@plugin(mongoosePaginate)
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Message {
   @Prop({
