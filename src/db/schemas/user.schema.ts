@@ -15,6 +15,7 @@ import * as bcrypt from 'bcrypt';
 export class User {
   @Prop({
     trim: true,
+    type: String,
     required: true,
     unique: true,
     uniqueCaseInsensitive: true,
@@ -23,6 +24,23 @@ export class User {
 
   @Prop({
     trim: true,
+    type: String,
+    minlength: 2,
+    maxlength: 20,
+  })
+  firstName: string;
+
+  @Prop({
+    trim: true,
+    type: String,
+    minlength: 2,
+    maxlength: 20,
+  })
+  lastName: string;
+
+  @Prop({
+    trim: true,
+    type: String,
     lowercase: true,
     required: false,
   })
@@ -30,36 +48,43 @@ export class User {
 
   @Prop({
     trim: true,
-  })
-  fcmToken: string;
-
-  @Prop({
-    trim: true,
-    lowercase: true,
-    required: false,
+    type: String,
+    required: true,
   })
   mobile: string;
 
   @Prop({
+    type: String,
     required: true,
   })
   password: string;
 
   @Prop({
+    type: String,
+    trim: true,
+  })
+  fcmToken: string;
+
+  @Prop({
+    type: String,
     required: false,
   })
   googleId: string;
 
   @Prop({
+    type: String,
     required: false,
   })
   isGoogleAuthorized: Boolean;
 
-  @Prop()
+  @Prop({
+    type: String,
+    enum: ['MALE', 'FEMALE'],
+  })
   gender: 'MALE' | 'FEMALE';
 
   @Prop({ required: false })
-  profilePictureUrl: string;
+  avatar: string;
 
   @Prop({ default: 'ACTIVE' })
   status: 'ACTIVE' | 'BLOCKED' | 'SUSPENDED';
@@ -72,23 +97,3 @@ export class User {
     }
   }
 }
-
-// UserSchema.methods.generateJWT = function (JWT_SECRET) {
-//   const payload = {
-//     _id: this._id,
-//     role: this.role,
-//   };
-
-//   return new Promise((resolve, reject) => {
-//     jsonwebtoken.sign(
-//       payload,
-//       JWT_SECRET,
-//       { expiresIn: "1y" },
-//       (error, token) => {
-//         if (error || !token) return reject(error);
-
-//         return resolve(token);
-//       }
-//     );
-//   });
-// };
