@@ -20,8 +20,8 @@ export class AuthController {
   @Post('register')
   async register(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
-  ): Promise<User> {
-    return await this.authService.register(createUserDto);
+  ): Promise<void> {
+    return this.authService.register(createUserDto);
   }
 
   @Post('login')

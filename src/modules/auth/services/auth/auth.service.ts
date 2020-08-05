@@ -11,6 +11,7 @@ import { CreateUserDto } from '../../dto/create-user.dto';
 import { AuthCredentialsDto } from '../../dto/auth-credentials.dto';
 import { JwtPayloadDto } from '../../dto/jwt-payload.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -19,19 +20,16 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(createUserDto: CreateUserDto): Promise<User> {
+  async register(createUserDto: CreateUserDto): Promise<void> {
     const user = new this.userModel(createUserDto);
     try {
       await user.save();
-      delete user.password;
-      return user;
+      return;
     } catch (error) {
       if (error.code === 11000) {
         throw new ConflictException('User already exists');
       } else {
-        console.log('====================================');
-        console.log(error);
-        console.log('====================================');
+        Logger.error('Failed to Create User', error, '[Auth Module]');
         throw new InternalServerErrorException('Internal server error');
       }
     }

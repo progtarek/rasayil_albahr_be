@@ -2,8 +2,6 @@ import {
   MinLength,
   MaxLength,
   IsNotEmpty,
-  Max,
-  IsArray,
   IsMobilePhone,
 } from 'class-validator';
 
@@ -21,6 +19,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsMobilePhone('ar-EG')
   mobile: string;
-
-  location: Array<Number>;
 }
