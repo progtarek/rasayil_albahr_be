@@ -29,6 +29,9 @@ export class AuthService {
       if (error.code === 11000) {
         throw new ConflictException('User already exists');
       } else {
+        console.log('====================================');
+        console.log(error);
+        console.log('====================================');
         throw new InternalServerErrorException('Internal server error');
       }
     }

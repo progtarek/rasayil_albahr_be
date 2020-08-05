@@ -1,4 +1,4 @@
-import { Prop, modelOptions, pre } from '@typegoose/typegoose';
+import { Prop, modelOptions, pre, Index, index } from '@typegoose/typegoose';
 import * as bcrypt from 'bcrypt';
 
 @pre<User>('save', async function() {
@@ -12,6 +12,7 @@ import * as bcrypt from 'bcrypt';
   }
 })
 @modelOptions({ schemaOptions: { timestamps: true } })
+@index({ location: '2dsphere' })
 export class User {
   @Prop({
     trim: true,
@@ -82,6 +83,9 @@ export class User {
     enum: ['MALE', 'FEMALE'],
   })
   gender: 'MALE' | 'FEMALE';
+
+  @Prop({ type: Number, dim: 1 })
+  public location?: Array<Number>;
 
   @Prop({ required: false })
   avatar: string;
