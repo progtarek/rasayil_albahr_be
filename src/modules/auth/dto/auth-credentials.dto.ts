@@ -1,4 +1,4 @@
 export class AuthCredentialsDto {
-  mobile: string;
+  username: string;
   password: string;
 }

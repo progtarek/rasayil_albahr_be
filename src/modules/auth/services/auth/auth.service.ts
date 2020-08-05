@@ -35,14 +35,19 @@ export class AuthService {
     }
   }
 
-  async login(authCredentials: AuthCredentialsDto): Promise<{ token: string }> {
-    const { mobile, password } = authCredentials;
-    const user = await this.userModel.findOne({ mobile });
+  async login(
+    authCredentials: AuthCredentialsDto,
+  ): Promise<{ token: string; username: string; _id: string }> {
+    const { username, password } = authCredentials;
+    const user = await this.userModel.findOne({ username });
     if (!user || !(await user.comparePassword(password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const jwtPayload: JwtPayloadDto = { username: user.username };
+    const jwtPayload: JwtPayloadDto = {
+      username: user.username,
+      _id: user._id,
+    };
     const token = await this.jwtService.sign(jwtPayload);
-    return { token };
+    return { token, username: user.username, _id: user._id };
   }
 }

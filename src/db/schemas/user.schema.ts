@@ -19,6 +19,8 @@ export class User {
     type: String,
     required: true,
     unique: true,
+    minlength: 2,
+    maxlength: 20,
     uniqueCaseInsensitive: true,
   })
   username: string;
@@ -50,7 +52,7 @@ export class User {
   @Prop({
     trim: true,
     type: String,
-    required: true,
+    required: false,
   })
   mobile: string;
 

@@ -1,13 +1,8 @@
-import {
-  MinLength,
-  MaxLength,
-  IsNotEmpty,
-  IsMobilePhone,
-} from 'class-validator';
+import { MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  @MinLength(4)
+  @MinLength(2)
   @MaxLength(20)
   username: string;
 
@@ -15,8 +10,4 @@ export class CreateUserDto {
   @MinLength(8)
   @MaxLength(20)
   password: string;
-
-  @IsNotEmpty()
-  @IsMobilePhone('ar-EG')
-  mobile: string;
 }
