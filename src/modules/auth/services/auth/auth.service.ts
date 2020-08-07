@@ -37,7 +37,7 @@ export class AuthService {
 
   async login(
     authCredentials: AuthCredentialsDto,
-  ): Promise<{ token: string; username: string; _id: string }> {
+  ): Promise<{ token: string; username: string }> {
     const { username, password } = authCredentials;
     const user = await this.userModel.findOne({ username });
     if (!user || !(await user.comparePassword(password))) {
@@ -48,6 +48,6 @@ export class AuthService {
       _id: user._id,
     };
     const token = await this.jwtService.sign(jwtPayload);
-    return { token, username: user.username, _id: user._id };
+    return { token, username: user.username };
   }
 }
