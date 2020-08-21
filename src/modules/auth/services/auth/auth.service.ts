@@ -21,17 +21,15 @@ export class AuthService {
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<void> {
-    const user = new this.userModel(createUserDto);
-    try {
+    const { username, email } = createUserDto;
+    const existed = await this.userModel.findOne({
+      $or: [{ username }, { email }],
+    });
+    if (existed) {
+      throw new ConflictException('User already exists');
+    } else {
+      const user = new this.userModel(createUserDto);
       await user.save();
-      return;
-    } catch (error) {
-      if (error.code === 11000) {
-        throw new ConflictException('User already exists');
-      } else {
-        Logger.error('Failed to Create User', error, '[Auth Module]');
-        throw new InternalServerErrorException('Internal server error');
-      }
     }
   }
 
