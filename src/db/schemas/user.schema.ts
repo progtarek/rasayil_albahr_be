@@ -77,8 +77,9 @@ export class User {
   @Prop({
     type: String,
     required: false,
+    default: false,
   })
-  isGoogleAuthorized: Boolean;
+  isEmailVerified: Boolean;
 
   @Prop({
     type: String,
@@ -90,7 +91,7 @@ export class User {
   public location?: Array<Number>;
 
   @Prop({ required: false })
-  avatar: string;
+  profilePictureUrl: string;
 
   @Prop({ default: 'ACTIVE' })
   status: 'ACTIVE' | 'BLOCKED' | 'SUSPENDED';
