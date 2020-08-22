@@ -46,4 +46,15 @@ export class AuthController {
   googleAuthRedirect(@Req() req) {
     return this.authService.googleLogin(req);
   }
+
+  @Get('facebook-login')
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuth(@Req() req) {}
+
+  @Get('facebook-redirect')
+  @UseGuards(AuthGuard('facebook'))
+  @Redirect(this.CLIENT_URL, 302)
+  facebookAuthRedirect(@Req() req) {
+    return this.authService.googleLogin(req);
+  }
 }
