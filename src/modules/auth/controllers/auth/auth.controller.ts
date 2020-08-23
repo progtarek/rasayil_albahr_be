@@ -55,6 +55,6 @@ export class AuthController {
   @UseGuards(AuthGuard('facebook'))
   @Redirect(this.CLIENT_URL, 302)
   facebookAuthRedirect(@Req() req) {
-    return this.authService.googleLogin(req);
+    return this.authService.facebookLogin(req);
   }
 }
