@@ -150,7 +150,10 @@ export class AuthService {
         username: new Date().getTime(),
         facebookId: id,
         isEmailVerified: true,
-        gender,
+        gender:
+          gender.toUpperCase() === 'MALE' || 'FEMALE'
+            ? gender.toUpperCase()
+            : 'OTHERS',
         password: this.getRandomPassword(),
         profilePictureUrl: photos[0].value,
       };
