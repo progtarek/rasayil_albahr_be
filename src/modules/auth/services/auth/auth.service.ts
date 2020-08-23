@@ -5,6 +5,7 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  Logger,
 } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from 'src/db/schemas/user.schema';
@@ -129,6 +130,8 @@ export class AuthService {
         )}&profilePictureUrl=${encodeURIComponent(user.profilePictureUrl)}`,
       };
     } catch (error) {
+      Logger.log('Failed to login with google', 'GOOGLE_LOGIN', true);
+      console.error('Failed to login with google', error);
       throw new InternalServerErrorException('Failed to sign in with google');
     }
   }
@@ -173,6 +176,8 @@ export class AuthService {
         )}&profilePictureUrl=${encodeURIComponent(user.profilePictureUrl)}`,
       };
     } catch (error) {
+      Logger.log('Failed to login with facebook', 'FACEBOOK_LOGIN');
+      console.error('Failed to login with facebook', error);
       throw new InternalServerErrorException('Failed to sign in with facebook');
     }
   }
