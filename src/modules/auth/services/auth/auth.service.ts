@@ -110,6 +110,7 @@ export class AuthService {
 
       let exist = await this.userModel.findOne({
         email: emails[0].value,
+        googleId: id,
       });
 
       let user = exist ? exist : await this.userModel.create(payload);
@@ -153,6 +154,7 @@ export class AuthService {
 
       let exist = await this.userModel.findOne({
         email: emails[0].value,
+        facebookId: id,
       });
 
       let user = exist ? exist : await this.userModel.create(payload);
