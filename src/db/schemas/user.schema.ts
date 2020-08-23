@@ -91,7 +91,7 @@ export class User {
     type: String,
     enum: ['MALE', 'FEMALE'],
   })
-  gender: 'MALE' | 'FEMALE' | 'OTHERS';
+  gender: 'MALE' | 'FEMALE' | 'OTHER';
 
   @Prop({ type: Number, dim: 1 })
   public location?: Array<Number>;

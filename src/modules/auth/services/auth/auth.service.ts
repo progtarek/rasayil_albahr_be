@@ -123,7 +123,7 @@ export class AuthService {
       return {
         url: `${this.configService.get(
           'SEA_MESSAGES_CLIENT_URL',
-        )}?username=${encodeURIComponent(
+        )}/authWith?username=${encodeURIComponent(
           user.username,
         )}&token=${encodeURIComponent(
           token,
@@ -153,7 +153,7 @@ export class AuthService {
         gender:
           gender.toUpperCase() === 'MALE' || 'FEMALE'
             ? gender.toUpperCase()
-            : 'OTHERS',
+            : 'OTHER',
         password: this.getRandomPassword(),
         profilePictureUrl: photos[0].value,
       };
@@ -172,7 +172,7 @@ export class AuthService {
       return {
         url: `${this.configService.get(
           'SEA_MESSAGES_CLIENT_URL',
-        )}?username=${encodeURIComponent(
+        )}/authWith?username=${encodeURIComponent(
           user.username,
         )}&token=${encodeURIComponent(
           token,
