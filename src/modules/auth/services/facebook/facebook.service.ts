@@ -10,6 +10,22 @@ export class FacebookService extends PassportStrategy(Strategy, 'facebook') {
     super({
       clientID: configService.get('FACEBOOK_CLIENT_ID'),
       clientSecret: configService.get('FACEBOOK_CLIENT_SECRET'),
+      graphAPIVersion: 'v4.0',
+      profileFields: [
+        'id',
+        'name',
+        'first_name',
+        'last_name',
+        'age_range',
+        'link',
+        'gender',
+        'locale',
+        'picture',
+        'timezone',
+        'updated_time',
+        'verified',
+        'email',
+      ],
       callbackURL: `${configService.get(
         'SEA_MESSAGES_BE_URL',
       )}/auth/facebook-redirect`,
