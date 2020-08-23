@@ -10,7 +10,7 @@ export class FacebookService extends PassportStrategy(Strategy, 'facebook') {
     super({
       clientID: configService.get('FACEBOOK_CLIENT_ID'),
       clientSecret: configService.get('FACEBOOK_CLIENT_SECRET'),
-      graphAPIVersion: 'v4.0',
+      graphAPIVersion: 'v2.12',
       profileFields: [
         'id',
         'name',
