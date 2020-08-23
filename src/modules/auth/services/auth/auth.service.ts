@@ -158,7 +158,9 @@ export class AuthService {
       // });
 
       return {
-        url: `${this.configService.get('SEA_MESSAGES_CLIENT_URL')}`,
+        url: `${this.configService.get(
+          'SEA_MESSAGES_CLIENT_URL',
+        )}?user=${JSON.stringify(req.user)}`,
       };
     } catch (error) {
       throw new InternalServerErrorException('Failed to sign in with facebook');
