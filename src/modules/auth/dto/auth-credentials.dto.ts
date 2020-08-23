@@ -1,4 +1,10 @@
+import { MinLength, MaxLength, IsNotEmpty, IsEmail } from 'class-validator';
+
 export class AuthCredentialsDto {
-  username: string;
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
   password: string;
 }

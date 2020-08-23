@@ -32,6 +32,7 @@ export class AuthService {
 
     return array;
   }
+
   getRandomPassword() {
     let numberChars = '0123456789';
     let upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -71,9 +72,9 @@ export class AuthService {
 
   async login(
     authCredentials: AuthCredentialsDto,
-  ): Promise<{ token: string; username: string }> {
-    const { username, password } = authCredentials;
-    const user = await this.userModel.findOne({ username });
+  ): Promise<{ token: string; username: string; profilePictureUrl: string }> {
+    const { email, password } = authCredentials;
+    const user = await this.userModel.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -82,7 +83,11 @@ export class AuthService {
       _id: user._id,
     };
     const token = await this.jwtService.sign(jwtPayload);
-    return { token, username: user.username };
+    return {
+      token,
+      username: user.username,
+      profilePictureUrl: user.profilePictureUrl,
+    };
   }
 
   async googleLogin(req) {

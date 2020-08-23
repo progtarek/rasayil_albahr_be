@@ -32,7 +32,7 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ token: string; username: string }> {
+  ): Promise<{ token: string; username: string; profilePictureUrl: string }> {
     return this.authService.login(authCredentialsDto);
   }
 
