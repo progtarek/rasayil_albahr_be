@@ -118,7 +118,9 @@ export class AuthService {
           'SEA_MESSAGES_CLIENT_URL',
         )}?username=${encodeURIComponent(
           user.username,
-        )}&token=${encodeURIComponent(token)}`,
+        )}&token=${encodeURIComponent(
+          token,
+        )}&profilePictureUrl=${encodeURIComponent(user.profilePictureUrl)}`,
       };
     } catch (error) {
       throw new InternalServerErrorException('Failed to sign in with google');
@@ -131,36 +133,37 @@ export class AuthService {
         throw new NotFoundException('User not found');
       }
 
-      console.log('========================================');
-      console.log(req.user);
-      console.log('========================================');
+      const { id, name, emails, photos, gender } = req.user.profile;
+      let payload: any = {
+        email: emails[0].value,
+        firstName: name.givenName,
+        lastName: name.familyName,
+        username: new Date().getTime(),
+        facebookId: id,
+        isEmailVerified: true,
+        gender,
+        password: this.getRandomPassword(),
+        profilePictureUrl: photos[0].value,
+      };
 
-      // const { id, name, emails, photos } = req.user.profile;
-      // let payload: any = {
-      //   email: emails[0].value,
-      //   firstName: name.givenName,
-      //   lastName: name.familyName,
-      //   username: new Date().getTime(),
-      //   googleId: id,
-      //   isEmailVerified: true,
-      //   password: this.getRandomPassword(),
-      //   profilePictureUrl: photos[0].value,
-      // };
+      let exist = await this.userModel.findOne({
+        email: emails[0].value,
+      });
 
-      // let exist = await this.userModel.findOne({
-      //   email: emails[0].value,
-      // });
-
-      // let user = exist ? exist : await this.userModel.create(payload);
-      // const token = await this.jwtService.sign({
-      //   username: user.username,
-      //   _id: user._id,
-      // });
+      let user = exist ? exist : await this.userModel.create(payload);
+      const token = await this.jwtService.sign({
+        username: user.username,
+        _id: user._id,
+      });
 
       return {
         url: `${this.configService.get(
           'SEA_MESSAGES_CLIENT_URL',
-        )}?user=${JSON.stringify(req.user)}`,
+        )}?username=${encodeURIComponent(
+          user.username,
+        )}&token=${encodeURIComponent(
+          token,
+        )}&profilePictureUrl=${encodeURIComponent(user.profilePictureUrl)}`,
       };
     } catch (error) {
       throw new InternalServerErrorException('Failed to sign in with facebook');

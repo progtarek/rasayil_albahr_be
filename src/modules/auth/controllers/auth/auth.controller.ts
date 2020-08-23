@@ -1,18 +1,18 @@
+import { AuthCredentialsDto } from '../../dto/auth-credentials.dto';
+import { AuthService } from '../../services/auth/auth.service';
+import { CreateUserDto } from '../../dto/create-user.dto';
 import { ConfigService } from '@nestjs/config';
+import { AuthGuard } from '@nestjs/passport';
 import {
-  Controller,
+  Req,
   Get,
   Post,
   Body,
-  ValidationPipe,
-  Req,
-  UseGuards,
   Redirect,
+  UseGuards,
+  Controller,
+  ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserDto } from '../../dto/create-user.dto';
-import { AuthCredentialsDto } from '../../dto/auth-credentials.dto';
-import { AuthService } from '../../services/auth/auth.service';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
