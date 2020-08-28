@@ -58,7 +58,7 @@ export class AuthService {
     ).join('');
   }
 
-  async register(createUserDto: CreateUserDto): Promise<void> {
+  async register(createUserDto: CreateUserDto): Promise<{ username: string }> {
     const { username, email } = createUserDto;
     const existed = await this.userModel.findOne({
       $or: [{ username }, { email }],
@@ -68,6 +68,7 @@ export class AuthService {
     } else {
       const user = new this.userModel(createUserDto);
       await user.save();
+      return { username: user.username };
     }
   }
 
