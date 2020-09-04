@@ -124,7 +124,7 @@ export class AuthService {
         email: emails[0].value,
       });
 
-      const { username, ...rest } = exist;
+      const { username, ...rest } = payload;
       await exist.updateOne({ ...rest });
 
       let user = exist ? exist : await this.userModel.create(payload);
@@ -144,7 +144,6 @@ export class AuthService {
       };
     } catch (error) {
       Logger.log('Failed to login with google', 'GOOGLE_LOGIN', true);
-      console.error('Failed to login with google', error);
       throw new InternalServerErrorException('Failed to sign in with google');
     }
   }
@@ -174,8 +173,9 @@ export class AuthService {
       let exist = await this.userModel.findOne({
         email: emails[0].value,
       });
-      const { username, ...rest } = exist;
+      const { username, ...rest } = payload;
       await exist.updateOne({ ...rest });
+
       let user = exist ? exist : await this.userModel.create(payload);
       const token = await this.jwtService.sign({
         username: user.username,
@@ -193,7 +193,6 @@ export class AuthService {
       };
     } catch (error) {
       Logger.log('Failed to login with facebook', 'FACEBOOK_LOGIN');
-      console.error('Failed to login with facebook', error);
       throw new InternalServerErrorException('Failed to sign in with facebook');
     }
   }
