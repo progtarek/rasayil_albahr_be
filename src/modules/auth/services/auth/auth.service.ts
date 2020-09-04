@@ -124,6 +124,9 @@ export class AuthService {
         email: emails[0].value,
       });
 
+      const { username, ...rest } = exist;
+      await exist.updateOne({ ...rest });
+
       let user = exist ? exist : await this.userModel.create(payload);
       const token = await this.jwtService.sign({
         username: user.username,
@@ -171,7 +174,8 @@ export class AuthService {
       let exist = await this.userModel.findOne({
         email: emails[0].value,
       });
-
+      const { username, ...rest } = exist;
+      await exist.updateOne({ ...rest });
       let user = exist ? exist : await this.userModel.create(payload);
       const token = await this.jwtService.sign({
         username: user.username,
