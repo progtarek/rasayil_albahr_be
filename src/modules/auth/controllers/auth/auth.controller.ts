@@ -25,7 +25,7 @@ export class AuthController {
   @Post('register')
   async register(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
-  ): Promise<{ username: string }> {
+  ): Promise<{ username: string; token: string }> {
     return this.authService.register(createUserDto);
   }
 

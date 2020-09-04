@@ -58,7 +58,9 @@ export class AuthService {
     ).join('');
   }
 
-  async register(createUserDto: CreateUserDto): Promise<{ username: string }> {
+  async register(
+    createUserDto: CreateUserDto,
+  ): Promise<{ username: string; token: string }> {
     const { username, email } = createUserDto;
     const existed = await this.userModel.findOne({
       $or: [{ username }, { email }],
@@ -68,7 +70,15 @@ export class AuthService {
     } else {
       const user = new this.userModel(createUserDto);
       await user.save();
-      return { username: user.username };
+      const jwtPayload: JwtPayloadDto = {
+        username: user.username,
+        _id: user._id,
+      };
+      const token = await this.jwtService.sign(jwtPayload);
+      return {
+        token,
+        username: user.username,
+      };
     }
   }
 
@@ -112,7 +122,6 @@ export class AuthService {
 
       let exist = await this.userModel.findOne({
         email: emails[0].value,
-        googleId: id,
       });
 
       let user = exist ? exist : await this.userModel.create(payload);
@@ -161,7 +170,6 @@ export class AuthService {
 
       let exist = await this.userModel.findOne({
         email: emails[0].value,
-        facebookId: id,
       });
 
       let user = exist ? exist : await this.userModel.create(payload);
