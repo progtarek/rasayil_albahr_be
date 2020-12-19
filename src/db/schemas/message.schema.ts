@@ -18,4 +18,7 @@ export class Message {
 
   @Prop({ ref: 'User', required: true })
   receiver!: Ref<User>;
+
+  @Prop({ default: true })
+  visibile: boolean;
 }

@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   Controller,
   Post,
   Body,
   ValidationPipe,
-  Req,
   UseGuards,
   Get,
   Query,
@@ -20,7 +20,7 @@ import { AuthenticatedUser } from '../../decorators/AuthenticatedUser.decorator'
 @Controller('messages')
 @UseGuards(AuthGuard())
 export class MessagesController {
-  constructor(private messageService: MessagesService) {}
+  constructor(private messageService: MessagesService) { }
 
   @Post('send')
   async send(

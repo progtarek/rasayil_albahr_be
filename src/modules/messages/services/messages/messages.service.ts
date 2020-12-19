@@ -13,7 +13,7 @@ export class MessagesService {
     private readonly messageModel,
     @InjectModel(User)
     private readonly userModel: ReturnModelType<typeof User>,
-  ) {}
+  ) { }
 
   public async send(
     sendMessageDto: SendMessagePayloadDto,
@@ -35,7 +35,7 @@ export class MessagesService {
 
   async findAll(sender: string, query: ReadManyQueryDto): Promise<Message[]> {
     const messages = await this.messageModel.paginate(
-      { sender },
+      { sender, visible: true },
       {
         select: 'message createdAt',
         ...query,
