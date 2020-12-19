@@ -20,5 +20,5 @@ export class Message {
   receiver!: Ref<User>;
 
   @Prop({ default: true })
-  visibile: boolean;
+  visible: boolean;
 }
