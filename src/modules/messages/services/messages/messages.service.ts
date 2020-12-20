@@ -15,6 +15,17 @@ export class MessagesService {
     private readonly userModel: ReturnModelType<typeof User>,
   ) { }
 
+
+  private processReadAllQuery(payload) {
+    if (payload.page) {
+      payload.page = parseInt(payload.page, 10);
+    }
+    if (payload.limit) {
+      payload.limit = parseInt(payload.limit, 10);
+    }
+    return payload;
+  }
+
   public async send(
     sendMessageDto: SendMessagePayloadDto,
     senderId: string,
@@ -34,11 +45,12 @@ export class MessagesService {
   }
 
   async findAll(sender: string, query: ReadManyQueryDto): Promise<Message[]> {
+    const filters = this.processReadAllQuery(query);
     const messages = await this.messageModel.paginate(
       { sender, visible: true },
       {
         select: 'message createdAt',
-        ...query,
+        ...filters,
       },
     );
 

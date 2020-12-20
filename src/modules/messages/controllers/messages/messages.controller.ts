@@ -22,7 +22,7 @@ import { AuthenticatedUser } from '../../decorators/AuthenticatedUser.decorator'
 export class MessagesController {
   constructor(private messageService: MessagesService) { }
 
-  @Post('send')
+  @Post('')
   async send(
     @Body(ValidationPipe) sendMessageDto: SendMessagePayloadDto,
     @AuthenticatedUser() user,
