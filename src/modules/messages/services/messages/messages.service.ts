@@ -13,8 +13,7 @@ export class MessagesService {
     private readonly messageModel,
     @InjectModel(User)
     private readonly userModel: ReturnModelType<typeof User>,
-  ) { }
-
+  ) {}
 
   private processReadAllQuery(payload) {
     if (payload.page) {
@@ -59,10 +58,19 @@ export class MessagesService {
 
   async delete(sender: string, _id: string): Promise<void> {
     try {
-      await this.messageModel.deleteOne({
+      const message = await this.messageModel.findOne({
         sender,
         _id,
       });
+
+      await this.messageModel.updateOne(
+        { _id: message._id },
+        { visible: false },
+      );
+
+      if (!message) {
+        throw new NotFoundException('Not found');
+      }
     } catch (error) {
       throw new NotFoundException('Not found');
     }
