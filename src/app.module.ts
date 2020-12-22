@@ -4,8 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { MessagesModule } from './modules/messages/messages.module';
+import { MediaModule } from './modules/media/media.module';
+import { MulterModule } from '@nestjs/platform-express';
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './uploads',
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -22,6 +27,7 @@ import { MessagesModule } from './modules/messages/messages.module';
     UsersModule,
     AuthModule,
     MessagesModule,
+    MediaModule,
   ],
   controllers: [],
   providers: [],
