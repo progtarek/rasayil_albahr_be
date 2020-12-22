@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { extname } from 'path';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 
 // Allow only images
 export const imageFileFilter = (req, file, callback) => {
@@ -15,12 +17,7 @@ export const imageFileFilter = (req, file, callback) => {
   callback(null, true);
 };
 
-export const editFileName = (req, file, callback) => {
-  const name = file.originalname.split('.')[0];
+export const fileNameGenerator = (req, file, callback) => {
   const fileExtName = extname(file.originalname);
-  const randomName = Array(4)
-    .fill(null)
-    .map(() => Math.round(Math.random() * 10).toString(10))
-    .join('');
-  callback(null, `${name}${randomName}${fileExtName}`);
+  callback(null, `${uuidv4()}${fileExtName}`);
 };
