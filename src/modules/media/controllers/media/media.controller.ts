@@ -34,6 +34,7 @@ export class MediaController {
       throw new HttpException(
         {
           error: 'Failed to upload image',
+          stack: error,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
@@ -57,6 +58,7 @@ export class MediaController {
       throw new HttpException(
         {
           error: 'Failed to upload images',
+          stack: error,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );

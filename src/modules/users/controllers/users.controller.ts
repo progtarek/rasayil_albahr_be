@@ -1,9 +1,11 @@
+import { UserStatusDTO } from './../DTOs/update-user-status.dto';
 import { AuthGuard } from '@nestjs/passport';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { UsersService } from './../services/users.service';
 import {
   Body,
   Controller,
+  Patch,
   Post,
   UseGuards,
   ValidationPipe,
@@ -25,5 +27,14 @@ export class UsersController {
       user._id,
       profilePictureUrlDTO,
     );
+  }
+
+  @Patch('status')
+  @UseGuards(AuthGuard())
+  async UpdateUseStatus(
+    @Body(ValidationPipe) userStatusDTO: UserStatusDTO,
+    @AuthenticatedUser() user,
+  ): Promise<UserStatusDTO> {
+    return this.usersService.UpdateUserStatus(user._id, userStatusDTO);
   }
 }

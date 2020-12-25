@@ -44,6 +44,14 @@ export class User {
   @Prop({
     trim: true,
     type: String,
+    minlength: 4,
+    maxlength: 100,
+  })
+  status: string;
+
+  @Prop({
+    trim: true,
+    type: String,
     lowercase: true,
     required: false,
   })
@@ -81,11 +89,11 @@ export class User {
   facebookId: string;
 
   @Prop({
-    type: String,
+    type: Boolean,
     required: false,
     default: false,
   })
-  isEmailVerified: Boolean;
+  isEmailVerified: boolean;
 
   @Prop({
     type: String,
@@ -94,13 +102,13 @@ export class User {
   gender: 'MALE' | 'FEMALE' | 'OTHER';
 
   @Prop({ type: Number, dim: 1 })
-  public location?: Array<Number>;
+  public location?: Array<number>;
 
   @Prop({ required: false })
   profilePictureUrl: string;
 
   @Prop({ default: 'ACTIVE' })
-  status: 'ACTIVE' | 'BLOCKED' | 'SUSPENDED';
+  activation: 'ACTIVE' | 'BLOCKED' | 'SUSPENDED';
 
   public async comparePassword(password: string): Promise<boolean> {
     try {

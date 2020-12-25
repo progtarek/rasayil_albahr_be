@@ -1,3 +1,4 @@
+import { UserStatusDTO } from './../DTOs/update-user-status.dto';
 import { User } from './../../../db/schemas/user.schema';
 import { InjectModel } from 'nestjs-typegoose';
 import { Injectable } from '@nestjs/common';
@@ -16,5 +17,13 @@ export class UsersService {
       { profilePictureUrl: profilePictureUrlDTO.profilePictureUrl },
     );
     return profilePictureUrlDTO;
+  }
+
+  public async UpdateUserStatus(
+    _id: string,
+    userStatusDTO: UserStatusDTO,
+  ): Promise<UserStatusDTO> {
+    await this.userModel.updateOne({ _id }, { status: userStatusDTO.status });
+    return userStatusDTO;
   }
 }
