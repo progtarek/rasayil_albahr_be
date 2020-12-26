@@ -84,7 +84,12 @@ export class AuthService {
 
   async login(
     authCredentials: AuthCredentialsDto,
-  ): Promise<{ token: string; username: string; profilePictureUrl: string }> {
+  ): Promise<{
+    token: string;
+    username: string;
+    profilePictureUrl: string;
+    status: string;
+  }> {
     const { email, password } = authCredentials;
     const user = await this.userModel.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
@@ -98,6 +103,7 @@ export class AuthService {
     return {
       token,
       username: user.username,
+      status: user.status,
       profilePictureUrl: user.profilePictureUrl,
     };
   }
