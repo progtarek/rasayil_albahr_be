@@ -1,3 +1,4 @@
+import { UserLocationDTO } from './../DTOs/update-user-location.dto';
 import { UserStatusDTO } from './../DTOs/update-user-status.dto';
 import { AuthGuard } from '@nestjs/passport';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -36,5 +37,14 @@ export class UsersController {
     @AuthenticatedUser() user,
   ): Promise<UserStatusDTO> {
     return this.usersService.UpdateUserStatus(user._id, userStatusDTO);
+  }
+
+  @Patch('location')
+  @UseGuards(AuthGuard())
+  async UpdateUseLocation(
+    @Body(ValidationPipe) userLocationDTO: UserLocationDTO,
+    @AuthenticatedUser() user,
+  ): Promise<any> {
+    return this.usersService.UpdateUserLocation(user._id, userLocationDTO);
   }
 }

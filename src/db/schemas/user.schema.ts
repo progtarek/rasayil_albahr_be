@@ -1,4 +1,4 @@
-import { Prop, modelOptions, pre, Index, index } from '@typegoose/typegoose';
+import { Prop, modelOptions, pre, index } from '@typegoose/typegoose';
 import * as bcrypt from 'bcrypt';
 
 @pre<User>('save', async function() {

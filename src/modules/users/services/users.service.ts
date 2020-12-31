@@ -1,3 +1,4 @@
+import { UserLocationDTO } from './../DTOs/update-user-location.dto';
 import { UserStatusDTO } from './../DTOs/update-user-status.dto';
 import { User } from './../../../db/schemas/user.schema';
 import { InjectModel } from 'nestjs-typegoose';
@@ -25,5 +26,15 @@ export class UsersService {
   ): Promise<UserStatusDTO> {
     await this.userModel.updateOne({ _id }, { status: userStatusDTO.status });
     return userStatusDTO;
+  }
+
+  public async UpdateUserLocation(
+    _id: string,
+    userLocationDTO: UserLocationDTO,
+  ): Promise<any> {
+    await this.userModel.updateOne(
+      { _id },
+      { location: [userLocationDTO.longitude, userLocationDTO.latitude] },
+    );
   }
 }
